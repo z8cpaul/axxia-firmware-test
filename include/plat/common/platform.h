@@ -250,6 +250,7 @@ int plat_get_rotpk_info(void *cookie, void **key_ptr, unsigned int *key_len,
 			unsigned int *flags);
 
 #if ENABLE_PLAT_COMPAT
+
 /*
  * The below declarations are to enable compatibility for the platform ports
  * using the old platform interface.

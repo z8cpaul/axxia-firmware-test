@@ -31,6 +31,7 @@
 #include <arch.h>
 #include <bl_common.h>
 #include <el3_common_macros.S>
+#include <assert_macros.S>
 
 	.globl	bl31_entrypoint
 
@@ -51,6 +52,7 @@ func bl31_entrypoint
 	 */
 	mov	x20, x0
 	mov	x21, x1
+
 
 	/* ---------------------------------------------------------------------
 	 * For !RESET_TO_BL31 systems, only the primary CPU ever reaches
@@ -104,6 +106,7 @@ func bl31_entrypoint
 	 * Perform platform specific early arch. setup
 	 * ---------------------------------------------
 	 */
+
 	bl	bl31_early_platform_setup
 	bl	bl31_plat_arch_setup
 

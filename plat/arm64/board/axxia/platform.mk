@@ -28,7 +28,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-PLAT_INCLUDES		:=	-Iplat/axxia/include            	\
+# Disable the PSCI platform compatibility layer
+ENABLE_PLAT_COMPAT	:= 	0
+
+PLAT_INCLUDES		:=	-Iplat/arm64/board/axxia/include            	\
 				-Iinclude/plat/axxia
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/pl011_console.S	\
@@ -38,36 +41,40 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/pl011_console.S	\
 				drivers/io/io_storage.c			\
 				lib/aarch64/xlat_tables.c		\
 				plat/common/aarch64/plat_common.c	\
-				plat/axxia/plat_io_storage.c
+				plat/arm64/board/axxia/plat_io_storage.c
 ifdef FULL_ATF
 BL1_SOURCES		+=	lib/cpus/aarch64/cortex_a57.S		\
 				lib/cpus/aarch64/cortex_a53.S		\
 				plat/common/aarch64/platform_up_stack.S	\
-				plat/axxia/bl1_plat_setup.c		\
-				plat/axxia/aarch64/bl1_plat_helpers.S	\
-				plat/axxia/aarch64/plat_helpers.S	\
-				plat/axxia/aarch64/axxia_common.c
+				plat/arm64/board/axxia/bl1_plat_setup.c		\
+				plat/arm64/board/axxia/aarch64/bl1_plat_helpers.S	\
+				plat/arm64/board/axxia/aarch64/plat_helpers.S	\
+				plat/arm64/board/axxia/aarch64/axxia_common.c
 endif
 
 BL2_SOURCES		+=	lib/locks/bakery/bakery_lock.c		\
 				plat/common/aarch64/platform_up_stack.S	\
-				plat/axxia/bl2_plat_setup.c		\
-				plat/axxia/aarch64/plat_helpers.S	\
-				plat/axxia/aarch64/axxia_common.c
+				plat/arm64/board/axxia/bl2_plat_setup.c		\
+				plat/arm64/board/axxia/aarch64/plat_helpers.S	\
+				plat/arm64/board/axxia/aarch64/axxia_common.c
 
+ifeq ($(ENABLE_PLAT_COMPAT), 0)
+BL31_SOURCES	+=	plat/common/aarch64/plat_psci_common.c
+endif
+				
 BL31_SOURCES		+=	drivers/arm/gic/gic_v2.c		\
 				drivers/arm/gic/gic_v3.c		\
-				plat/axxia/plat_gic.c			\
+				plat/arm64/board/axxia/plat_gic.c			\
 				lib/cpus/aarch64/cortex_a57.S		\
 				lib/cpus/aarch64/cortex_a53.S		\
 				plat/common/aarch64/platform_mp_stack.S	\
-				plat/axxia/bl31_plat_setup.c		\
-				plat/axxia/aarch64/plat_helpers.S	\
-				plat/axxia/aarch64/axxia_common.c	\
-				plat/axxia/plat_pm.c			\
-				plat/axxia/plat_topology.c              \
-				plat/axxia/ncr.c			\
-				plat/axxia/ddr_retention.c
+				plat/arm64/board/axxia/bl31_plat_setup.c		\
+				plat/arm64/board/axxia/aarch64/plat_helpers.S	\
+				plat/arm64/board/axxia/aarch64/axxia_common.c	\
+				plat/arm64/board/axxia/plat_pm.c			\
+				plat/arm64/board/axxia/plat_topology.c              \
+				plat/arm64/board/axxia/ncr.c			\
+				plat/arm64/board/axxia/ddr_retention.c
 
 NEED_BL31               :=      yes
 NEED_BL33		:=	no

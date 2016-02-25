@@ -71,6 +71,8 @@ int psci_do_cpu_off(unsigned int end_pwrlvl)
 	 */
 	assert(psci_plat_pm_ops->pwr_domain_off);
 
+	ERROR("Charlie: %s-%d\n", __FILE__,__LINE__);
+
 	/*
 	 * This function acquires the lock corresponding to each power
 	 * level so that by the time all locks are taken, the system topology
@@ -110,7 +112,9 @@ int psci_do_cpu_off(unsigned int end_pwrlvl)
 	 * Plat. management: Perform platform specific actions to turn this
 	 * cpu off e.g. exit cpu coherency, program the power controller etc.
 	 */
+	ERROR("Charlie: %s-%d\n", __FILE__,__LINE__);
 	psci_plat_pm_ops->pwr_domain_off(&state_info);
+	ERROR("Charlie: %s-%d\n", __FILE__,__LINE__);
 
 exit:
 	/*
