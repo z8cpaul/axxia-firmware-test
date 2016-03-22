@@ -41,7 +41,6 @@ const unsigned char axxia_power_domain_tree_desc[] = {
 		PLATFORM_CORE_COUNT
 };
 
-#if (ENABLE_PLAT_COMPAT == 0)
 /*******************************************************************************
  * This function implements a part of the critical interface between the psci
  * generic layer and the platform that allows the former to query the platform
@@ -80,36 +79,8 @@ const unsigned char *plat_get_power_domain_tree_desc(void)
 {
 	return axxia_power_domain_tree_desc;
 }
-#else
-unsigned int plat_get_aff_count(unsigned int aff_lvl, unsigned long mpidr)
-{
-	int num;
 
-	switch (aff_lvl) {
-	case MPIDR_AFFLVL0:
-		/* Cores per cluster. */
-		num = (PLATFORM_CORE_COUNT / PLATFORM_CLUSTER_COUNT);
-		break;
-	case MPIDR_AFFLVL1:
-		/* Clusters. */
-		num = PLATFORM_CLUSTER_COUNT;
-		break;
-	default:
-		/* Report 1 (absent) at levels higher that a cluster. */
-		num = 1;
-	}
-
-	return num;
-}
-
-unsigned int plat_get_aff_state(unsigned int aff_lvl, unsigned long mpidr)
-{
-	return aff_lvl <= MPIDR_AFFLVL1 ? PSCI_AFF_PRESENT : PSCI_AFF_ABSENT;
-}
-
-#endif
-
-int plat_get_max_afflvl()
+int plat_get_max_afflvl(void)
 {
 	return MPIDR_AFFLVL1;
 }

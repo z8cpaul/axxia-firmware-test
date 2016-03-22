@@ -204,12 +204,10 @@ static void pwr_domain_off_compat(const psci_power_state_t *target_state)
 	int level;
 	unsigned int plat_state;
 
-	ERROR("Charlie %s-%d\n", __FILE__, __LINE__);
 	for (level = 0; level <= PLATFORM_MAX_AFFLVL; level++) {
 		plat_state = (is_local_state_run(
 				target_state->pwr_domain_state[level]) ?
 				PSCI_STATE_ON : PSCI_STATE_OFF);
-		ERROR("Charlie %s-%d\n", __FILE__, __LINE__);
 		pm_ops->affinst_off(level, plat_state);
 	}
 }

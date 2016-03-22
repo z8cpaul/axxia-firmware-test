@@ -40,10 +40,8 @@
 	.globl	plat_crash_console_putc
 	.globl	plat_report_exception
 	.globl	plat_reset_handler
-#if (ENABLE_PLAT_COMPAT == 0)
 	.globl	plat_my_core_pos
 	.globl  plat_is_my_cpu_primary
-#endif
 	.globl	platform_mem_init
 	.globl	plat_secondary_cold_boot_setup
 
@@ -91,7 +89,6 @@ func plat_report_exception
 	ret
 endfunc plat_report_exception
 
-#if (ENABLE_PLAT_COMPAT == 0)
 /*---------------------------------------------
  * int platform_get_core_pos(void)
  *
@@ -99,6 +96,7 @@ endfunc plat_report_exception
  *---------------------------------------------
  */
 func plat_my_core_pos
+	mrs	x0, mpidr_el1
 	and	x1, x0, #MPIDR_CPU_MASK
 	and	x0, x0, #MPIDR_CLUSTER_MASK
 	add	x0, x1, x0, LSR #6
@@ -118,7 +116,6 @@ func plat_is_my_cpu_primary
 	cset	x0, eq
 	ret
 endfunc plat_is_my_cpu_primary
-#endif
 
 /* -----------------------------------------------------
  * unsigned long plat_get_my_entrypoint (void);

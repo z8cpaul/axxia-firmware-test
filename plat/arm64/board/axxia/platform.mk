@@ -58,11 +58,10 @@ BL2_SOURCES		+=	lib/locks/bakery/bakery_lock.c		\
 				plat/arm64/board/axxia/aarch64/plat_helpers.S	\
 				plat/arm64/board/axxia/aarch64/axxia_common.c
 
-ifeq ($(ENABLE_PLAT_COMPAT), 0)
-BL31_SOURCES	+=	plat/common/aarch64/plat_psci_common.c
-endif
-				
-BL31_SOURCES		+=	drivers/arm/gic/gic_v2.c		\
+BL31_SOURCES		+=	plat/common/aarch64/plat_psci_common.c	\
+				plat/arm64/board/axxia/drivers/pwrc/axxia_psci_handler.c	\
+				plat/arm64/board/axxia/drivers/pwrc/axxia_pwrc.c	\
+				drivers/arm/gic/gic_v2.c		\
 				drivers/arm/gic/gic_v3.c		\
 				plat/arm64/board/axxia/plat_gic.c			\
 				lib/cpus/aarch64/cortex_a57.S		\
